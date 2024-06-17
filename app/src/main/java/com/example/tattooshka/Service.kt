@@ -1,5 +1,5 @@
 package com.example.tattooshka
-
+//test
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewServiceNameDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Название услуги"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/textViewServiceCategoryDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Категория услуги"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/textViewServicePriceDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Цена услуги"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/buttonOpenService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Открыть экран услуг"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>

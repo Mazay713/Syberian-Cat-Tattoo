@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/etFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Имя"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/etLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Фамилия"
+        android:layout_below="@id/etFirstName"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/etPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Номер телефона"
+        android:inputType="phone"
+        android:layout_below="@id/etLastName"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Поле для ввода даты рождения -->
+    <EditText
+        android:id="@+id/etBirthDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Дата рождения"
+        android:inputType="date"
+        android:layout_below="@id/etPhone"
+        android:layout_marginTop="16dp"/>
+
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/etBirthDate"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/profile"/>
+
+    <Button
+        android:id="@+id/btnUploadImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivAvatar"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/black"
+        android:text="Загрузить фотографию"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp" />
+
+    <Button
+        android:textColor="@color/white"
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnUploadImage"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/black"
+        android:text="Сохранить"
+        app:cornerRadius="8dp" />
+</RelativeLayout>

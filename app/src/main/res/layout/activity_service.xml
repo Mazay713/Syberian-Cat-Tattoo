@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/editTextServiceName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите название услуги"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/editTextServiceCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите категорию услуги"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/editTextServicePrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите цену услуги"
+        android:inputType="numberDecimal"/>
+
+    <Button
+        android:id="@+id/buttonSaveService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/black"
+        android:text="Сохранить"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp" />
+</LinearLayout>

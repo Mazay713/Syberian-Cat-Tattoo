@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+        <SearchView
+            android:id="@+id/search_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
+            android:queryHint="Поиск услуг"/>
+
+    <TextView
+        android:id="@+id/services_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@id/search_service"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:gravity="start"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+
+    <TextView android:id="@+id/category"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Категории услуг"
+    android:textSize="30dp"
+    android:layout_marginLeft="10dp"
+    android:textColor="@color/black"
+    android:fontFamily="@font/bold"
+    android:layout_below="@+id/services_text_view"
+        android:layout_marginTop="5dp"
+    />
+
+    <GridView
+        android:id="@+id/photo_grid"
+        android:layout_width="match_parent"
+        android:layout_height="478dp"
+        android:layout_below="@id/category"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:columnWidth="200dp"
+        android:fadingEdgeLength="30dp"
+        android:gravity="center"
+        android:horizontalSpacing="8dp"
+        android:listSelector="@android:color/darker_gray"
+        android:numColumns="auto_fit"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="vertical"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="8dp" />
+</RelativeLayout>

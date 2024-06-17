@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_services"
+
+        android:backgroundTint="@color/design_default_color_on_primary"
+        android:icon="@drawable/tattoomachine"
+        android:title="Услуги" />
+    <!-- Повторите для каждого пункта -->
+    <item
+        android:id="@+id/navigation_workers"
+        android:backgroundTint="@color/white"
+        android:icon="@drawable/workers"
+        android:title="Наши работники" />
+    <!-- Повторите для каждого пункта -->
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:backgroundTint="@color/design_default_color_on_primary"
+        android:icon="@drawable/profile"
+        android:title="Профиль" />
+</menu>

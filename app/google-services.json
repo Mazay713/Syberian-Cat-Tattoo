@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "190410216167",
+    "project_id": "tatooshka-55c7d",
+    "storage_bucket": "tatooshka-55c7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190410216167:android:de6228ba094bf51ebbc842",
+        "android_client_info": {
+          "package_name": "com.example.tattooshka"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi7cj4y9rtf5pNuGek4UC_czh3XRCAneQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <Button
+        android:id="@+id/buttonWorkers"
+        android:layout_marginTop="250dp"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/black"
+        android:fontFamily="@font/medium"
+        android:text="Пользователи"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp" />
+
+    <Button
+        android:id="@+id/buttonServices"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:text="Услуги"
+        android:backgroundTint="@color/black"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp"
+        android:layout_below="@id/buttonWorkers"/>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Панель администратора"
+        android:textAlignment="center"
+        android:fontFamily="@font/semibold"
+        android:textSize="32dp"
+        android:textColor="@color/black"
+        />
+
+</RelativeLayout>

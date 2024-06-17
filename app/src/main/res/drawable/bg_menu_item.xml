@@ -1,0 +1,4 @@
+<!-- bg_menu_item.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white" /> <!-- Используйте нужный цвет фона -->
+</shape>

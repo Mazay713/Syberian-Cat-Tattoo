@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:progressTint="@color/black"
+        android:rating="0"
+        android:scaleX="0.5"
+
+        android:scaleY="0.5"
+        android:stepSize="1"
+        android:translationX="-60dp" />
+
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:translationY="-10dp" />
+
+</LinearLayout>

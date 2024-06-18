@@ -42,16 +42,16 @@
         android:layout_width="match_parent"
         android:layout_height="478dp"
         android:layout_below="@id/category"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="4dp"
         android:background="@color/white"
         android:columnWidth="200dp"
         android:fadingEdgeLength="30dp"
         android:gravity="center"
-        android:horizontalSpacing="8dp"
+        android:horizontalSpacing="0dp"
         android:listSelector="@android:color/darker_gray"
-        android:numColumns="auto_fit"
+        android:numColumns="2"
         android:requiresFadingEdge="vertical"
         android:scrollbars="vertical"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="8dp" />
+        android:verticalSpacing="2dp" />
 </RelativeLayout>

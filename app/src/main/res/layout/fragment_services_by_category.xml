@@ -1,0 +1,25 @@
+<!-- fragment_services_by_category.xml -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ServicesByCategoryFragment">
+
+    <TextView
+        android:id="@+id/ServiceCategory"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:text="Категория услуги"
+        android:textSize="14pt"
+        android:fontFamily="@font/semibold"
+        android:textAlignment="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/services_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="645dp"
+        android:padding="16dp"
+        android:layout_marginTop="40dp"
+        tools:listitem="@layout/item_service_category" />
+
+</FrameLayout>

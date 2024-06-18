@@ -71,18 +71,32 @@ class ServiceFragment : Fragment() {
             if (services.isEmpty()) {
                 servicesTextView.text = "Нет доступных услуг"
             } else {
-                servicesTextView.text = services.joinToString("\n")
+                viewModel.filterServicesByCategory("ВыбраннаяКатегория")
             }
+        })
+
+        viewModel.filteredServicesLiveData.observe(viewLifecycleOwner, { filteredServices ->
+            servicesTextView.text = filteredServices.joinToString("\n")
         })
     }
 
-    private fun showServiceDetails(serviceName: String) {
-        val serviceDetailsFragment = Service_Details.newInstance(serviceName)
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, serviceDetailsFragment)
-            .addToBackStack(null)
-            .commit()
+
+    private fun showServiceDetails(categoryName: String) {
+        // Создание нового фрагмента с услугами по категории
+        val servicesByCategoryFragment = ServicesByCategoryFragment().apply {
+            arguments = Bundle().apply {
+                putString("categoryName", categoryName)
+            }
+        }
+
+        // Запуск транзакции фрагмента для замены текущего фрагмента в контейнере
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, servicesByCategoryFragment)
+            addToBackStack(null) // Добавление транзакции в стек возврата
+            commit() // Выполнение транзакции
+        }
     }
+
 }
 
 // ImageTextAdapter.kt
@@ -129,9 +143,8 @@ class ImageTextAdapter(
 class ServiceViewModel : ViewModel() {
     private val _servicesLiveData = MutableLiveData<List<String>>()
     val servicesLiveData: LiveData<List<String>> = _servicesLiveData
-    private val _categoriesLiveData = MutableLiveData<List<String>>()
-    val categoriesLiveData: LiveData<List<String>> = _categoriesLiveData
-
+    private val _filteredServicesLiveData = MutableLiveData<List<String>>()
+    val filteredServicesLiveData: LiveData<List<String>> = _filteredServicesLiveData
     private val servicesCollection = FirebaseFirestore.getInstance().collection("services")
 
     init {
@@ -139,50 +152,60 @@ class ServiceViewModel : ViewModel() {
     }
 
     private fun loadServices() {
-        viewModelScope.launch {
-            val services = withContext(Dispatchers.IO) {
-                val servicesList = mutableListOf<String>()
-                val categoriesList = mutableListOf<String>()
-                try {
-                    val querySnapshot = servicesCollection.get().await()
-                    for (document in querySnapshot.documents) {
-                        document.getString("name")?.let { serviceName ->
-                            servicesList.add(serviceName)
-                        }
-                        document.getString("category")?.let { category ->
-                            if (!categoriesList.contains(category)) {
-                                categoriesList.add(category)
-                            }
+        viewModelScope.launch(Dispatchers.IO) {
+            val servicesList = mutableListOf<String>()
+            val categoriesList = mutableListOf<String>()
+            try {
+                val querySnapshot = servicesCollection.get().await()
+                for (document in querySnapshot.documents) {
+                    document.getString("name")?.let { serviceName ->
+                        servicesList.add(serviceName)
+                    }
+                    document.getString("category")?.let { category ->
+                        if (!categoriesList.contains(category)) {
+                            categoriesList.add(category)
                         }
                     }
-                } catch (e: Exception) {
-                    Log.e("ServiceViewModel", "Error loading services", e)
                 }
-                _categoriesLiveData.postValue(categoriesList)
-                servicesList
+            } catch (e: Exception) {
+                Log.e("ServiceViewModel", "Error loading services", e)
             }
-            _servicesLiveData.postValue(services)
+            _servicesLiveData.postValue(servicesList)
         }
     }
 
     fun filterServicesByCategory(category: String) {
         viewModelScope.launch {
-            val filteredServices = withContext(Dispatchers.IO) {
-                _servicesLiveData.value?.filter { service ->
-                    getCategoryForService(service) == category
-                }
-            }
-            _servicesLiveData.postValue(filteredServices ?: listOf())
+            val filteredServices = getFilteredServicesByCategory(category)
+            _filteredServicesLiveData.postValue(filteredServices)
         }
     }
 
-    private suspend fun getCategoryForService(serviceName: String): String {
-        var category = "Неизвестная категория"
-        val querySnapshot = servicesCollection.whereEqualTo("category", serviceName).get().await()
-        for (document in querySnapshot.documents) {
-            category = document.getString("category") ?: "Неизвестная категория"
-            break // Поскольку имя услуги уникально, нам нужен только первый документ
+    private suspend fun getFilteredServicesByCategory(category: String): List<String> {
+        return withContext(Dispatchers.IO) {
+            _servicesLiveData.value?.filter { service ->
+                getCategoryForService(service) == category
+            } ?: listOf()
         }
-        return category
+    }
+    private suspend fun getCategoryForService(serviceName: String): String {
+        return withContext(Dispatchers.IO) {
+            try {
+                val querySnapshot = servicesCollection
+                    .whereEqualTo("category", serviceName)
+                    .limit(1) // Поскольку имя услуги уникально, нам нужен только один документ
+                    .get()
+                    .await()
+
+                if (querySnapshot.documents.isNotEmpty()) {
+                    querySnapshot.documents[0].getString("category") ?: "Неизвестная категория"
+                } else {
+                    "Категория не найдена"
+                }
+            } catch (e: Exception) {
+                Log.e("ServiceViewModel", "Ошибка при получении категории для услуги: $serviceName", e)
+                "Ошибка при запросе"
+            }
+        }
     }
 }

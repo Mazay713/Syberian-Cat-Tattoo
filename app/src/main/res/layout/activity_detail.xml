@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/service_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Название услуги"
+        android:textSize="24sp"
+        android:fontFamily="@font/bold" />
+
+    <TextView
+        android:id="@+id/service_category_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/service_name_text_view"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/regular"
+        android:text="Категория услуги" />
+
+    <TextView
+        android:id="@+id/service_price_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/service_category_text_view"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/regular"
+        android:text="Цена услуги" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/black"
+        android:text="Назад"
+        app:cornerRadius="8dp" />
+
+</RelativeLayout>

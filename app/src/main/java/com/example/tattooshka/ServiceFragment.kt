@@ -2,6 +2,7 @@
 package com.example.tattooshka
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -54,42 +55,54 @@ class ServiceFragment : Fragment() {
         searchView = view.findViewById(R.id.search_service)
         setupSearch()
         observeServices()
+        searchResultsListView.setOnItemClickListener { adapterView, view, position, id ->
+            val serviceName = adapterView.getItemAtPosition(position) as String
+            viewModel.getServiceIdByName(serviceName).observe(viewLifecycleOwner) { serviceId ->
+                Log.d("ServiceFragment", "Service ID: $serviceId")
+                if (serviceId.isNotEmpty()) {
+                    val intent = Intent(context, DetailActivity::class.java).apply {
+                        putExtra("SERVICE_ID", serviceId as String)
+                    }
+                    startActivity(intent)
+                } else {
+                    Log.e("ServiceFragment", "Не найден ID для услуги: $serviceName")
+                }
+            }
+        }
         return view
     }
 
     private fun setupSearch() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { viewModel.searchServices(it) }
+                query?.let { viewModel.searchServicesByName(it) }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let { viewModel.searchServices(it) }
+                newText?.let { viewModel.searchServicesByName(it) }
                 return true
             }
         })
     }
-
     private fun observeServices() {
         viewModel.filteredServicesLiveData.observe(viewLifecycleOwner) { filteredServices ->
             searchResults.clear()
-            filteredServices.forEach { serviceName ->
-                viewModel.getServiceDetails(serviceName).observe(viewLifecycleOwner) { serviceItem ->
-                    // Убедитесь, что используете правильный экземпляр объекта 'serviceItem'
-                    val displayString = "Услуга: ${serviceItem.name}, Категория: ${serviceItem.category}, Цена: ${serviceItem.price}"
-                    if (!searchResults.contains(displayString)) {
-                        searchResults.add(displayString)
-                    }
-                    searchResultsAdapter.notifyDataSetChanged()
-                }
-            }
-            searchResultsListView.visibility = if (searchResults.isEmpty()) View.GONE else View.VISIBLE
+            searchResults.addAll(filteredServices)
+            searchResultsAdapter.notifyDataSetChanged()
+            searchResultsListView.visibility = if (filteredServices.isEmpty()) View.GONE else View.VISIBLE
         }
     }
 
+    private fun updateUI(serviceDetailsList: List<ServiceViewModel.Service>) {
+        val serviceInfoSet = serviceDetailsList.map { serviceDetails ->
+            "Услуга: ${serviceDetails.name}, Категория: ${serviceDetails.category}"
+        }.toSet() // Используем Set для уникальности
 
-
+        searchResults.addAll(serviceInfoSet)
+        searchResultsAdapter.notifyDataSetChanged()
+        searchResultsListView.visibility = View.VISIBLE
+    }
 
 
     private fun showServiceDetails(categoryName: String) {
@@ -153,11 +166,27 @@ class ImageTextAdapter(
 }
 class ServiceViewModel : ViewModel() {
     private val _servicesLiveData = MutableLiveData<List<String>>()
-    val servicesLiveData: LiveData<List<String>> = _servicesLiveData
     private val _filteredServicesLiveData = MutableLiveData<List<String>>()
     val filteredServicesLiveData: LiveData<List<String>> = _filteredServicesLiveData
     private val servicesCollection = FirebaseFirestore.getInstance().collection("services")
+    data class Service(
+        val name: String = "",
+        val category: String = "",
+        val price: Double = 0.0
+    )
+    fun searchServicesByName(query: String) {
+        viewModelScope.launch {
+            val filteredServices = getFilteredServicesByName(query)
+            _filteredServicesLiveData.postValue(filteredServices)
+        }
+    }
 
+    private suspend fun getFilteredServicesByName(query: String): List<String> {
+        // Получаем список услуг напрямую из Firestore
+        val servicesList = servicesCollection.get().await().documents.mapNotNull { it.getString("name") }
+        // Фильтруем список услуг, используя запрос поиска
+        return servicesList.filter { it.contains(query, ignoreCase = true) }
+    }
     init {
         loadServices()
     }
@@ -170,7 +199,9 @@ class ServiceViewModel : ViewModel() {
                 val querySnapshot = servicesCollection.get().await()
                 for (document in querySnapshot.documents) {
                     document.getString("name")?.let { serviceName ->
-                        servicesList.add(serviceName)
+                        if (!servicesList.contains(serviceName)) {
+                            servicesList.add(serviceName)
+                        }
                     }
                     document.getString("category")?.let { category ->
                         if (!categoriesList.contains(category)) {
@@ -178,15 +209,20 @@ class ServiceViewModel : ViewModel() {
                         }
                     }
                 }
+                Log.d("ServiceViewModel", "Загруженные услуги: $servicesList")
+                Log.d("ServiceViewModel", "Загруженные категории: $categoriesList")
             } catch (e: Exception) {
                 Log.e("ServiceViewModel", "Error loading services", e)
             }
             _servicesLiveData.postValue(servicesList)
         }
     }
+
+
     fun searchServices(query: String) {
         viewModelScope.launch {
             val filteredServices = getFilteredServicesByQuery(query)
+            Log.d("ServiceViewModel", "Отфильтрованные услуги: $filteredServices") // Добавьте логирование здесь
             _filteredServicesLiveData.postValue(filteredServices)
         }
     }
@@ -197,42 +233,32 @@ class ServiceViewModel : ViewModel() {
             } ?: listOf()
         }
     }
-    fun filterServicesByCategory(category: String) {
+    fun getServiceIdByName(serviceName: String): LiveData<String> {
+        val serviceIdLiveData = MutableLiveData<String>()
         viewModelScope.launch {
-            val filteredServices = getFilteredServicesByCategory(category)
-            _filteredServicesLiveData.postValue(filteredServices)
-        }
-    }
-
-    private suspend fun getFilteredServicesByCategory(category: String): List<String> {
-        return withContext(Dispatchers.IO) {
-            _servicesLiveData.value?.filter { service ->
-                getCategoryForService(service) == category
-            } ?: listOf()
-        }
-    }
-    private suspend fun getCategoryForService(serviceName: String): String {
-        return withContext(Dispatchers.IO) {
             try {
                 val querySnapshot = servicesCollection
-                    .whereEqualTo("category", serviceName)
-                    .limit(1) // Поскольку имя услуги уникально, нам нужен только один документ
+                    .whereEqualTo("name", serviceName)
+                    .limit(1)
                     .get()
                     .await()
 
-                if (querySnapshot.documents.isNotEmpty()) {
-                    querySnapshot.documents[0].getString("category") ?: "Неизвестная категория"
+                val serviceId = if (querySnapshot.documents.isNotEmpty()) {
+                    querySnapshot.documents[0].id // Получаем ID документа
                 } else {
-                    "Категория не найдена"
+                    ""
                 }
+                serviceIdLiveData.postValue(serviceId)
             } catch (e: Exception) {
-                Log.e("ServiceViewModel", "Ошибка при получении категории для услуги: $serviceName", e)
-                "Ошибка при запросе"
+                Log.e("ServiceViewModel", "Ошибка при получении ID услуги: $serviceName", e)
             }
         }
+        return serviceIdLiveData
     }
-    fun getServiceDetails(serviceName: String): LiveData<Service> {
-        val serviceDetailsLiveData = MutableLiveData<Service>()
+
+
+    fun getServiceDetailsLiveData(serviceName: String): LiveData<Service> {
+        val liveData = MutableLiveData<Service>()
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val querySnapshot = servicesCollection
@@ -242,15 +268,15 @@ class ServiceViewModel : ViewModel() {
                     .await()
 
                 val service = if (querySnapshot.documents.isNotEmpty()) {
-                    querySnapshot.documents[0].toObject(Service::class.java)
+                    querySnapshot.documents[0].toObject(Service::class.java) ?: Service()
                 } else {
-                    Service() // Возвращаем пустой объект Service, если услуга не найдена.
+                    Service()
                 }
-                serviceDetailsLiveData.postValue(service)
+                liveData.postValue(service)
             } catch (e: Exception) {
                 Log.e("ServiceViewModel", "Ошибка при получении деталей услуги: $serviceName", e)
             }
         }
-        return serviceDetailsLiveData
+        return liveData
     }
 }

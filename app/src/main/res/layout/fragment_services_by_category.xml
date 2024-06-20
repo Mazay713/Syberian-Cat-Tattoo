@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/semibold"
+        android:layout_marginTop="40dp"
         android:text="Категория услуги"
         android:textAlignment="center"
         android:textSize="14pt" />
@@ -29,5 +30,11 @@
         android:layout_below = "@id/ServiceCategory"
         android:padding="16dp"
         tools:listitem="@layout/item_service_category" />
-
+    <Spinner
+        android:id="@+id/spinner_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/sort_options"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 </FrameLayout>

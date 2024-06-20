@@ -1,124 +1,73 @@
-package com.example.tattooshka
-
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.google.firebase.firestore.FirebaseFirestore
-data class PortfolioItem(val id: String, val imageUrl: String)
-
-
-
-class WorkerActivity : AppCompatActivity() {
-
-    private lateinit var recyclerView: RecyclerView
-//    private lateinit var adapter: PortfolioAdapter
-    private val db = FirebaseFirestore.getInstance()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_worker)
-
-//        recyclerView = findViewById(R.id.recyclerView)
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-//        adapter = PortfolioAdapter { item -> /* обработчик нажатия */ }
-//        recyclerView.adapter = adapter
-
-        // Загрузка данных портфолио
-        loadPortfolioItems()
-    }
-
-    private fun loadPortfolioItems() {
-        db.collection("portfolio").get()
-            .addOnSuccessListener { documents ->
-                val items = documents.map { doc ->
-                    PortfolioItem(doc.id, doc.getString("imageUrl") ?: "")
-                }
-//                adapter.setItems(items)
-            }
-            .addOnFailureListener { exception ->
-                // Обработка ошибки
-            }
-    }
-
-    // Функции для удаления и редактирования портфолио
-    fun deletePortfolioItem(item: PortfolioItem) {
-        db.collection("portfolio").document(item.id).delete()
-            .addOnSuccessListener {
-                // Успешное удаление
-            }
-            .addOnFailureListener {
-                // Обработка ошибки
-            }
-    }
-
-    // Функция для редактирования элемента портфолио
-    // Функция для редактирования элемента портфолио
-    fun editPortfolioItem(portfolioItemId: String) {
-        val db = FirebaseFirestore.getInstance()
-        val portfolioItemRef = db.collection("portfolio").document(portfolioItemId)
-
-        // Получение данных элемента портфолио
-        portfolioItemRef.get().addOnSuccessListener { documentSnapshot ->
-            val portfolioItem = documentSnapshot.toObject(PortfolioItem::class.java)
-            portfolioItem?.let { item ->
-                // Показать диалоговое окно с текущими данными элемента для редактирования
-                showEditPortfolioItemDialog(item)
-            }
-        }.addOnFailureListener {
-            // Обработка ошибки получения данных
-        }
-    }
-
-    // Функция для вызова диалога редактирования элемента портфолио
-    fun showEditPortfolioItemDialog(item: PortfolioItem) {
-        // ... Код диалогового окна для редактирования ...
-    }
-
-    // Обновление элемента портфолио в Firestore
-    fun updatePortfolioItem(updatedItem: PortfolioItem) {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("portfolio").document(updatedItem.id)
-            .set(updatedItem)
-            .addOnSuccessListener {
-                // Обработка успешного обновления
-            }
-            .addOnFailureListener {
-                // Обработка ошибки обновления
-            }
-    }
-
-
-}
-//class PortfolioAdapter(private val onItemClick: (PortfolioItem) -> Unit) :
-//    RecyclerView.Adapter<PortfolioAdapter.ViewHolder>() {
-
-//    var items: List<PortfolioItem> = listOf()
-
-//    fun setItems(newItems: List<PortfolioItem>) {
-//        items = newItems
-//        notifyDataSetChanged()
+//package com.example.tattooshka
+//
+//import android.content.Intent
+//import android.os.Bundle
+//import android.os.Parcel
+//import android.os.Parcelable
+//import android.widget.Button
+//import android.widget.ImageView
+//import android.widget.TextView
+//import androidx.appcompat.app.AppCompatActivity
+//import com.google.firebase.database.DatabaseReference
+//
+//class WorkerActivity() : AppCompatActivity(), Parcelable {
+//
+//    private lateinit var database: DatabaseReference
+//
+//    constructor(parcel: Parcel) : this() {
+//        // Инициализация переменных из Parcel, если это необходимо
 //    }
 //
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_portfolio, parent, false)
-//        return ViewHolder(view)
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_worker)
+//
+//        // Инициализация Firebase Database
+//        database = FirebaseDatabase.getInstance().getReference()
+//
+//        val textViewWorkerName: TextView = findViewById(R.id.textViewWorkerName)
+//        val textViewWorkerExperience: TextView = findViewById(R.id.textViewWorkerExperience)
+//        val imageViewWorkerAvatar: ImageView = findViewById(R.id.imageViewWorkerAvatar)
+//        val buttonEditPortfolio: Button = findViewById(R.id.buttonEditPortfolio)
+//
+//        // Получение данных из Firebase
+//        database.child("workers").child("workerId").addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                val workerName = dataSnapshot.child("name").getValue(String::class.java)
+//                val workerExperience = dataSnapshot.child("experience").getValue(String::class.java)
+//                // Здесь вы можете добавить код для загрузки изображения аватара из Firebase Storage, если необходимо
+//
+//                textViewWorkerName.text = workerName ?: ""
+//                textViewWorkerExperience.text = workerExperience ?: ""
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                // Обработка ошибок
+//            }
+//        })
+//
+//        // Обработчик нажатия кнопки для редактирования портфолио
+//        buttonEditPortfolio.setOnClickListener {
+//            val intent = Intent(this, EditPortfolioActivity::class.java)
+//            startActivity(intent)
+//        }
 //    }
 //
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val item = items[position]
-//        Glide.with(holder.itemView.context).load(item.imageUrl).into(holder.imageView)
-//        holder.itemView.setOnClickListener { onItemClick(item) }
+//    override fun writeToParcel(parcel: Parcel, flags: Int) {
+//        // Запись переменных в Parcel, если это необходимо
 //    }
 //
-//    override fun getItemCount() = items.size
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.imageView)
-    }
+//    override fun describeContents(): Int {
+//        return 0
+//    }
+//
+//    companion object CREATOR : Parcelable.Creator<WorkerActivity> {
+//        override fun createFromParcel(parcel: Parcel): WorkerActivity {
+//            return WorkerActivity(parcel)
+//        }
+//
+//        override fun newArray(size: Int): Array<WorkerActivity?> {
+//            return arrayOfNulls(size)
+//        }
+//    }
 //}

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ServicesByCategoryFragment">
+    tools:context=".ServicesByCategoryFragment"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/ServiceCategory"
@@ -31,6 +32,7 @@
         android:padding="16dp"
         tools:listitem="@layout/item_service_category" />
     <Spinner
+        android:background="@color/white"
         android:id="@+id/spinner_sort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

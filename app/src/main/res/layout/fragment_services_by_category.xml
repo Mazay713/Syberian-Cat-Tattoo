@@ -8,18 +8,26 @@
     <TextView
         android:id="@+id/ServiceCategory"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:text="Категория услуги"
-        android:textSize="14pt"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/semibold"
-        android:textAlignment="center"/>
+        android:text="Категория услуги"
+        android:textAlignment="center"
+        android:textSize="14pt" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/services_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="645dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:hapticFeedbackEnabled="false"
+        android:isScrollContainer="false"
+        android:keepScreenOn="false"
+        android:longClickable="false"
+        android:nestedScrollingEnabled="false"
+        android:layout_below = "@id/ServiceCategory"
         android:padding="16dp"
-        android:layout_marginTop="40dp"
         tools:listitem="@layout/item_service_category" />
 
 </FrameLayout>

@@ -12,6 +12,7 @@ import android.widget.GridView
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -47,8 +48,8 @@ class WorkerActivity : AppCompatActivity() {
         buttonEditPortfolio.setOnClickListener {
             val intent = Intent(this, EditPortfolioActivity::class.java)
             startActivity(intent)
+            loadUserData()
         }
-        loadUserData()
         buttonRefresh = findViewById(R.id.buttonRefresh)
         buttonRefresh.setOnClickListener {
             loadUserData()
@@ -127,12 +128,29 @@ class WorkerActivity : AppCompatActivity() {
                     val experience = document.getString("experience") ?: ""
 
                     val avatarRef = storageReference.child("avatars/$userId.jpg")
-                    avatarRef.downloadUrl.addOnSuccessListener { uri ->
-                        Glide.with(this@WorkerActivity).load(uri).into(avatarImageView)
-                    }
-                    firstNameTextView.text = firstName
-                    secondNameTextView.text = secondName
-                    experienceTextView.text = experience
+                    val photosRef = storageReference.child("photos/$userId")
+                    photosRef.listAll()
+                        .addOnSuccessListener { listResult ->
+                            val imageUrls = ArrayList<String>()
+                            listResult.items.forEach { storageRef ->
+                                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                                    imageUrls.add(uri.toString())
+                                    if (imageUrls.size == listResult.items.size) {
+                                        val adapter =
+                                            ImageAdapter(this@WorkerActivity, imageUrls)
+                                        photosGridView.adapter = adapter
+                                    }
+                                }.addOnFailureListener {
+                                    Toast.makeText(this, "Ошибка при загрузке фотографий", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            avatarRef.downloadUrl.addOnSuccessListener { uri ->
+                                Glide.with(this@WorkerActivity).load(uri).into(avatarImageView)
+                            }
+                            firstNameTextView.text = firstName
+                            secondNameTextView.text = secondName
+                            experienceTextView.text = experience // Обновлено здесь
+                        }
                 } else {
                     Log.e("WorkerActivity", "Документ не найден")
                 }
@@ -141,4 +159,5 @@ class WorkerActivity : AppCompatActivity() {
                 Log.e("WorkerActivity", "Ошибка запроса данных пользователя", exception)
             }
     }
+
 }

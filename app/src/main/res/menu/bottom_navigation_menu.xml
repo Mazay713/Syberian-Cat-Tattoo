@@ -11,7 +11,7 @@
         android:id="@+id/navigation_workers"
         android:backgroundTint="@color/white"
         android:icon="@drawable/workers"
-        android:title="Наши работники" />
+        android:title="Наши мастера" />
     <!-- Повторите для каждого пункта -->
 
     <item

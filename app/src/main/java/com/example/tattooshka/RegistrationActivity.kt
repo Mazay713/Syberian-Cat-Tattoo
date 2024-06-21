@@ -66,10 +66,6 @@ data class User(
                 )
 
                 db.collection("users").document(auth.currentUser?.uid.toString()).set(user)
-                    .addOnSuccessListener { document ->
-                        Toast.makeText(this, "Added with ID : ${document}", Toast.LENGTH_SHORT)
-                            .show()
-                    }
                     .addOnFailureListener {
                         Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show()
                     }

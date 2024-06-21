@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                                         when(user){
                                             "admin" -> startActivity(Intent(this, AdminActivity::class.java))
                                             "user" -> startActivity(Intent(this, UserActivity::class.java))
-//                                            "worker" -> startActivity(Intent(this, WorkerActivity::class.java))
+                                            "worker" -> startActivity(Intent(this, WorkerActivity::class.java))
                                         }
                                     } else {
                                         Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT)
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 //                                    intent = Intent(this, com.example.tattooshka.UserActivity::class.java)
 //                                    startActivity(intent)
 //                                } else if(user!= null && user.role == "worker"){
-//                                    intent = Intent(this, com.example.tattooshka.WorkerActivity::class.java)
+//                                    intent = Intent(this, com.example.tattooshka.com.example.tattooshka.WorkerActivity::class.java)
 //                                    startActivity(intent)
 //                                }
                             }.addOnFailureListener {

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:fillViewport="true">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop" />
+
+    <Button
+        android:id="@+id/uploadAvatarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/avatarImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="загрузить аватар"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/black"/>
+    <EditText
+        android:id="@+id/firstNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/uploadAvatarButton"
+        android:layout_marginTop="16dp"
+        android:hint="Имя" />
+
+    <EditText
+        android:id="@+id/secondNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/firstNameEditText"
+        android:layout_marginTop="8dp"
+        android:hint="Фамилия" />
+
+    <EditText
+        android:id="@+id/experienceEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/secondNameEditText"
+        android:layout_marginTop="8dp"
+        android:hint="Стаж" />
+
+    <GridView
+        android:id="@+id/photosGridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/experienceEditText"
+        android:layout_marginTop="16dp"
+        android:numColumns="3"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp" />
+
+    <Button
+        android:id="@+id/addPhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/photosGridView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/black"
+        android:text="Добавить фото в портфолио"
+        app:cornerRadius="8dp" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addPhotoButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="сохранить"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/black"/>
+</RelativeLayout>
+</ScrollView>

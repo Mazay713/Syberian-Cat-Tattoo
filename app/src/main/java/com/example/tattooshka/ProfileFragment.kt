@@ -36,7 +36,7 @@ class ProfileFragment : Fragment() {
         // Находим кнопку редактирования профиля и устанавливаем обработчик нажатия
         view.findViewById<Button>(R.id.button_edit_profile).setOnClickListener {
             // Здесь код для перехода на экран редактирования профиля
-            // Например, если у вас есть Activity под названием EditProfileActivity
+            // Например, если у вас есть Activity под названием com.example.tattooshka.EditProfileActivity
             val editProfileIntent = Intent(activity, EditProfileActivity::class.java)
             startActivity(editProfileIntent)
         }

@@ -29,6 +29,10 @@ class UserActivity : AppCompatActivity() {
                     replaceFragment(ProfileFragment())
                     true
                 }
+                R.id.navigation_aboutUs ->{
+                    replaceFragment(AboutUsFragment())
+                    true
+                }
                 else -> false
             }
         }

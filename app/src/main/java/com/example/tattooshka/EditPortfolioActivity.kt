@@ -231,7 +231,7 @@ class EditPortfolioActivity : AppCompatActivity() {
         val userUpdates = hashMapOf<String, Any>(
             "firstName" to firstNameEditText.text.toString(),
             "lastName" to secondNameEditText.text.toString(),
-            "experience" to "Стаж: " + experienceEditText.text.toString()
+            "experience" to experienceEditText.text.toString()
             // Добавьте другие поля здесь, если необходимо
         )
 

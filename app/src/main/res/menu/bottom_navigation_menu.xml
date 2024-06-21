@@ -19,4 +19,9 @@
         android:backgroundTint="@color/design_default_color_on_primary"
         android:icon="@drawable/profile"
         android:title="Профиль" />
+    <item
+        android:id="@+id/navigation_aboutUs"
+        android:backgroundTint="@color/design_default_color_on_primary"
+        android:icon="@drawable/aboutus"
+        android:title="О нас" />
 </menu>

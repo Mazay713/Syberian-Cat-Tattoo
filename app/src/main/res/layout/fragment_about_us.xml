@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutUsFragment"
+    android:background="@color/white">
+    <TextView
+        android:id="@+id/first"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:text="Syberian Cat Tattoo - салон, где рождаются шедевры "
+        android:fontFamily="@font/trajan"
+        android:textSize="27dp"
+        />
+    <TextView
+        android:id="@+id/second"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:layout_marginTop="100dp"
+        android:text="Мы ждем вас по адресу:"
+
+        android:fontFamily="@font/trajan"
+        android:textSize="20dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:layout_marginTop="130dp"
+        android:text="70 лет Октября, 1А "
+
+        android:fontFamily="@font/trajan"
+        android:textSize="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/logo" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/trajan"
+        android:layout_marginTop="560dp"
+        android:text="Вы можете позвонить нам:"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/trajan"
+        android:layout_marginTop="600dp"
+        android:text="+7(912)992-57-91"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/trajan"
+        android:layout_marginTop="660dp"
+        android:text="Здесь каждый найдет свой стиль"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+</FrameLayout>

@@ -38,7 +38,7 @@ class WorkerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_worker)
-
+        loadUserData()
         avatarImageView = findViewById(R.id.avatarImageView)
         firstNameTextView = findViewById(R.id.firstNameTextView)
         secondNameTextView = findViewById(R.id.secondNameTextView)
@@ -48,7 +48,7 @@ class WorkerActivity : AppCompatActivity() {
         buttonEditPortfolio.setOnClickListener {
             val intent = Intent(this, EditPortfolioActivity::class.java)
             startActivity(intent)
-            loadUserData()
+
         }
         buttonRefresh = findViewById(R.id.buttonRefresh)
         buttonRefresh.setOnClickListener {
@@ -126,7 +126,6 @@ class WorkerActivity : AppCompatActivity() {
                     val firstName = document.getString("firstName") ?: ""
                     val secondName = document.getString("lastName") ?: ""
                     val experience = document.getString("experience") ?: ""
-
                     val avatarRef = storageReference.child("avatars/$userId.jpg")
                     val photosRef = storageReference.child("photos/$userId")
                     photosRef.listAll()
@@ -149,7 +148,7 @@ class WorkerActivity : AppCompatActivity() {
                             }
                             firstNameTextView.text = firstName
                             secondNameTextView.text = secondName
-                            experienceTextView.text = experience // Обновлено здесь
+                            experienceTextView.text = "Стаж: $experience" // Обновлено здесь
                         }
                 } else {
                     Log.e("WorkerActivity", "Документ не найден")

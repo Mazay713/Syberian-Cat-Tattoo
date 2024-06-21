@@ -163,7 +163,7 @@ class ReviewsFragment : Fragment() {
                     // Обновляем интерфейс с информацией о работнике
                     firstNameTextView.text = firstName
                     secondNameTextView.text = secondName
-                    experienceTextView.text = experience
+                    experienceTextView.text = "Стаж: $experience"
 
                     // Загрузка аватара и фотографий работника
                     val avatarRef = storageReference.child("avatars/$workerId.jpg")
